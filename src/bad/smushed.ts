@@ -1,12 +1,10 @@
 /*
  * This is the _not_ hexagonal example.
- * All concerns are smooshed together into one mess.
+ * All concerns are smushed together into one mess.
  */
 import {DynamoDB} from "aws-sdk";
 import {DocumentClient, ScanOutput} from "aws-sdk/clients/dynamodb";
 import {APIGatewayProxyEvent} from "aws-lambda";
-import {MillisecondsInSecond, SecondsInMinute} from "temporal-constants";
-import {Seconds} from "temporal-types";
 
 const dynamoClient = new DynamoDB.DocumentClient();
 
@@ -40,13 +38,13 @@ export const handler = async (event: APIGatewayProxyEvent) => {
 
   // Bad: Dealing with DynamoDB details in handler
   const tableName = process.env.TABLE_NAME;
-  const epochTime = Math.floor(Date.now() / MillisecondsInSecond) as Seconds;
+  const epochTime = Math.floor(Date.now() / 1000);
   const entry: DynamoDBPackage = {
     ...request,
     userId: claims['cognito:username'] || '',
     userName: claims.name || '',
     createdOn: new Date().toISOString(),
-    ttl: epochTime + SecondsInMinute
+    ttl: epochTime + 60
   };
 
   try {

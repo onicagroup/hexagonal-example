@@ -1,7 +1,7 @@
 import {Injector} from "@sailplane/injector";
 import {AppUser, Package, PackageRequest} from "./model";
 import * as assert from "assert";
-import {createPackageHandler} from "./package.handler";
+import {createPackageHandler} from "./package.lambda";
 import {APIGatewayProxyEvent} from "aws-lambda";
 import {expect} from "chai";
 
