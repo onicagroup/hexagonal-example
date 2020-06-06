@@ -22,6 +22,3 @@ export interface Package extends PackageRequest {
   createdOn: ISODateTime;
   ttl: Seconds;
 }
-
-export const MillisecondsInSecond = 1000;
-export const SecondsInMinute = 60;

@@ -9,6 +9,9 @@ import * as LambdaUtils from "@sailplane/lambda-utils";
 import {PackageService} from "./package.service";
 import {AppUser, PackageRequest} from "./model";
 
+const HTTP_OK = 200;
+const HTTP_INTERNAL_ERROR = 500;
+
 /**
  * AWS Lambda handler.
  * Deals with Lambda, API Gateway, and Cognito interfacing, then
@@ -31,7 +34,7 @@ export const createPackageHandler = async (event: APIGatewayProxyEvent) => {
     const result = await Injector.get(PackageService)!.create(request, user);
 
     return {
-      statusCode: 200,
+      statusCode: HTTP_OK,
       body: JSON.stringify(result)
     };
   }
@@ -44,7 +47,7 @@ export const createPackageHandler = async (event: APIGatewayProxyEvent) => {
     }
     else {
       return {
-        statusCode: 500,
+        statusCode: HTTP_INTERNAL_ERROR,
         body: error.toString()
       };
     }

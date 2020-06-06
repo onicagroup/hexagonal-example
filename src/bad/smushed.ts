@@ -3,7 +3,7 @@
  * All concerns are smushed together into one mess.
  */
 import {DynamoDB} from "aws-sdk";
-import {DocumentClient, ScanOutput} from "aws-sdk/clients/dynamodb";
+import {DocumentClient, PutItemOutput} from "aws-sdk/clients/dynamodb";
 import {APIGatewayProxyEvent} from "aws-lambda";
 
 const dynamoClient = new DynamoDB.DocumentClient();
@@ -68,8 +68,8 @@ export const handler = async (event: APIGatewayProxyEvent) => {
 };
 
 // Good: Helper function to update DynamoDB
-// Bad: In same file with everything else & returns DynamoDB specific data type
-async function addPackage(client: DocumentClient, tableName: string | undefined, packageUpload: DynamoDBPackage): Promise<ScanOutput> {
+// Bad: In same file with everything else & returns DynamoDB specific data type that isn't even used.
+async function addPackage(client: DocumentClient, tableName: string | undefined, packageUpload: DynamoDBPackage): Promise<PutItemOutput> {
   if (!tableName) {
     throw Error('tableName is not defined');
   }

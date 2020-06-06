@@ -17,6 +17,7 @@
     "bottlejs": "^1.7.2",
     "http-errors": "^1.7.3",
     "middy": "^0.36.0",
+    "temporal-constants": "^1.1.0",
     "temporal-types": "^1.0.0",
     "uuid": "^7.0.3"
   },

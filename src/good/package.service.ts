@@ -1,13 +1,12 @@
 import {Injector} from "@sailplane/injector";
 import {Seconds} from "temporal-types";
+import {MillisecondsInSecond, SecondsInMinute} from "temporal-constants";
 import * as createError from "http-errors";
 import {PackageRepository} from "./package-repository";
 import {
   AppUser,
-  MillisecondsInSecond,
   Package,
-  PackageRequest,
-  SecondsInMinute
+  PackageRequest
 } from "./model";
 
 /**
