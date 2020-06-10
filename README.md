@@ -1,4 +1,4 @@
-# Hexagonal Architecture
+# Hexagonal Architecture by Example
 
 ## Overview
 
@@ -6,12 +6,6 @@ Hexagonal architecture is a pattern of software architecture involving abstracti
 functionality to keep just your business logic at the core.
 It's an extension of the adapter pattern and dependency injection patterns used to abstract away
 environment specific dependencies to leave your business logic free of such distractions.
-
-See:
-
-- [Hexagonal Architecture: What Is It and How Does It Work?](https://blog.ndepend.com/hexagonal-architecture/) 
-- https://en.wikipedia.org/wiki/Dependency_injection
-- https://en.wikipedia.org/wiki/Adapter_pattern
 
 ## About Application Architectures
 
@@ -68,7 +62,8 @@ That is where you begin, because it is what is important.
 Your application logic need not concern itself with whether it is called from a serverless function or a monolithic container. 
 Nor is the application logic concerned whether user data comes from a user pool, relational database, NoSQL database, or web service. 
 
-Your business logic does need to *interface* with the outside environment though, and it does this through "adapters".
+Your business logic does need to *interface* with the outside environment though, and it does this through
+[adapters](https://en.wikipedia.org/wiki/Adapter_pattern).
 Most high-level languages have interfaces, and that's what we're talking about here. 
 Implementations of these interfaces are the adapters. So you have an interface to a "Package", 
 and an implementation that deals with where ever that package data is actually stored. 
@@ -125,8 +120,9 @@ In the example, we use the [Sailplane project's Injector](https://docs.onica.com
 New to dependency injection? There is a *lot* of material written about this common pattern already.
 Two starting points:
 
-- [A quick intro to DI](https://www.freecodecamp.org/news/a-quick-intro-to-dependency-injection-what-it-is-and-when-to-use-it-7578c84fa88f/) at freeCodeCamp.
-- [Detailed artical](https://www.martinfowler.com/articles/injection.html) from software development legend, Martin Fowler.
+- [A quick intro to DI](https://www.freecodecamp.org/news/a-quick-intro-to-dependency-injection-what-it-is-and-when-to-use-it-7578c84fa88f/) at freeCodeCamp
+- [Definition and many examples](https://en.wikipedia.org/wiki/Dependency_injection) on Wikipedia
+- [Detailed article](https://www.martinfowler.com/articles/injection.html) from software development legend, Martin Fowler
  
 ### No Magic Numbers
 
@@ -153,3 +149,9 @@ For loosely typed languages though, a mock can be created simply by matching the
 and thus an explicit interface isn't needed. If a second adapter is developed, 
 that's when the on-demand need comes into play to ensure that the implementations maintain the same API.
 
+## Learn More
+
+There is much written about Hexagonal Architecture, from other perspectives. Here are a couple of good reads:
+
+- [Hexagonal Architecture: What Is It and How Does It Work?](https://blog.ndepend.com/hexagonal-architecture/)  with examples in C#
+- [Ready for changes with Hexagonal Architecture](https://netflixtechblog.com/ready-for-changes-with-hexagonal-architecture-b315ec967749) - Netflix's journey from monolith

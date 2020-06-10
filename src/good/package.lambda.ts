@@ -6,8 +6,9 @@
 import {APIGatewayProxyEvent} from "aws-lambda";
 import {Injector} from "@sailplane/injector";
 import * as LambdaUtils from "@sailplane/lambda-utils";
+import {authMiddleware, AuthService} from "./auth.service";
 import {PackageService} from "./package.service";
-import {AppUser, PackageRequest} from "./model";
+import {PackageRequest} from "./model";
 
 const HTTP_OK = 200;
 const HTTP_INTERNAL_ERROR = 500;
@@ -21,17 +22,12 @@ const HTTP_INTERNAL_ERROR = 500;
  * See below for an alternative using @sailplane/lambda-utils to remove the boilerplate.
  */
 export const createPackageHandler = async (event: APIGatewayProxyEvent) => {
+  const authSvc = Injector.get(AuthService)!;
+  authSvc.initForLambda(event);
+
   try {
     const request = JSON.parse(event.body || '{}') as PackageRequest;
-
-    // If any more complex than this, abstract away into an AuthorizerService.
-    const claims = event.requestContext.authorizer?.claims || {};
-    const user: AppUser = {
-      id: claims['cognito:username'] || '',
-      name: claims.name || '',
-    };
-
-    const result = await Injector.get(PackageService)!.create(request, user);
+    const result = await Injector.get(PackageService)!.create(request);
 
     return {
       statusCode: HTTP_OK,
@@ -52,6 +48,9 @@ export const createPackageHandler = async (event: APIGatewayProxyEvent) => {
       };
     }
   }
+  finally {
+    authSvc.destroy();
+  }
 };
 
 /**
@@ -66,13 +65,5 @@ export const createPackageHandlerWithoutBoilerplate = LambdaUtils.wrapApiHandler
   async (event: LambdaUtils.APIGatewayProxyEvent
 ) => {
   const request = event.body as PackageRequest;
-
-  // If any more complex than this, abstract away into an AuthorizerService.
-  const claims = event.requestContext.authorizer?.claims || {};
-  const user: AppUser = {
-    id: claims['cognito:username'] || '',
-    name: claims.name || '',
-  };
-
-  return Injector.get(PackageService)!.create(request, user);
-});
+  return Injector.get(PackageService)!.create(request);
+}).use(authMiddleware());

@@ -1,14 +1,15 @@
 import {Injector} from "@sailplane/injector";
 import {AppUser, Package, PackageRequest} from "./model";
-import * as assert from "assert";
+import {AuthService} from "./auth.service";
 import {createPackageHandler} from "./package.lambda";
 import {APIGatewayProxyEvent} from "aws-lambda";
 import {expect} from "chai";
+import * as assert from "assert";
 
 class MockPackageService {
   mockResult?: Promise<Package>;
 
-  create(request: PackageRequest, user: AppUser): Promise<Package> {
+  create(request: PackageRequest, authSvc: AuthService): Promise<Package> {
     assert.ok(this.mockResult);
     return this.mockResult!;
   }
