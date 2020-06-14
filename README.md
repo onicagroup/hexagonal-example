@@ -99,18 +99,20 @@ architect your application to be portable anyway because the effort results in c
 
 Here's that [smushed](src/bad/smushed.ts) example rewritten with hexagonal architecture:
 
-- [package.service.ts](src/good/package.service.ts) is the application logic - the center of the architecture!
-- [package.repository.ts](src/good/package-repository.ts) handles data storage. This happens to use DynamoDB.
-- [package.lambda.ts](src/good/package.lambda.ts) deals with adapting from AWS API Gateway and AWS Lambda as the entry point.
+- [package.service.ts](src/good/services/package.service.ts) is the application logic - the center of the architecture!
+- [package.repository.ts](src/good/repositories/package-repository.ts) handles data storage. This happens to use DynamoDB.
+- [package.lambda.ts](src/good/handlers/package.lambda.ts) deals with adapting from AWS API Gateway and AWS Lambda as the entry point.
+- [auth.service.ts](src/good/services/auth.service.ts) generically deals with user authentication.
 
 This new version also employs a few of other good programming practices...
 
 ### Unit Tests
 
 Each module in the new example has unit tests with full coverage:
-[package.service.spec.ts](src/good/package.service.spec.ts), 
-[package.repository.spec.ts](src/good/package-repository.spec.ts), 
-[package.lambda.spec.ts](src/good/package.lambda.spec.ts)
+[package.service.spec.ts](src/good/services/package.service.spec.ts), 
+[package.repository.spec.ts](src/good/repositories/package-repository.spec.ts), 
+[package.lambda.spec.ts](src/good/handlers/package.lambda.spec.ts),
+[auth.service.spec.ts](src/good/services/auth.service.spec.ts)
 
 ### Dependency Injection
 
@@ -133,7 +135,12 @@ For instance, the current time is divided by `1000` and `ttl` is set to that plu
 Why? What does do `1000` and `60` represent? You can figure it out with some thought and experience,
 but it'd be clearer if explicit.
 In the improved example, we use explicit constants, functions, and types to replace the magic.
- 
+
+### Directory Structure
+
+There are many good choices for organizing your source; all in one directory is not one of them!
+The new version [shows a common way of organizing source](src/good/) by where it is in the architecture.
+
 ## To Interface, or Not To Interface?
 
 Notice that the example didn't define explicit Typescript `interface` types for the adapters.

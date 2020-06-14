@@ -1,40 +1,38 @@
+// tslint:disable:no-unused-expression
 import {authMiddleware, AuthService} from "./auth.service";
-import {AppUser} from "./model";
+import {AppUser} from "../models";
 import {expect} from "chai";
-import {Injector} from "@sailplane/injector/dist/injector";
+import {Injector} from "@sailplane/injector";
 
-const testAppUser: AppUser = {
+export const testAppUser: AppUser = {
   id: 'utest001',
   name: "Unit Test"
 };
 
-const testLambdaEvent = {
+export const testLambdaEvent = {
   requestContext: {
     authorizer: {
       claims: {
-        "cognito:username": testAppUser.id,
+        sub: testAppUser.id,
         name: testAppUser.name
       }
     }
   }
 } as any;
 
-// export function initUnitTestAuth(authSvc: AuthService) {
-// }
-
 it('authMiddleware', () => {
   const authSvc = Injector.get(AuthService)!;
   const handler = { event: testLambdaEvent } as any;
 
   expect(authSvc.hasUser()).to.be.false;
-  authMiddleware().before(handler, () => {});
+  authMiddleware().before(handler, () => undefined);
   expect(authSvc.getUser()).to.deep.equal(testAppUser);
-  authMiddleware().after(handler, () => {});
+  authMiddleware().after(handler, () => undefined);
   expect(authSvc.hasUser()).to.be.false;
 
-  authMiddleware().before(handler, () => {});
+  authMiddleware().before(handler, () => undefined);
   expect(authSvc.getUser()).to.deep.equal(testAppUser);
-  authMiddleware().onError(handler, () => {});
+  authMiddleware().onError(handler, () => undefined);
   expect(authSvc.hasUser()).to.be.false;
 });
 

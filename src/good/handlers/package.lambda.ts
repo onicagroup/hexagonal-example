@@ -6,9 +6,9 @@
 import {APIGatewayProxyEvent} from "aws-lambda";
 import {Injector} from "@sailplane/injector";
 import * as LambdaUtils from "@sailplane/lambda-utils";
-import {authMiddleware, AuthService} from "./auth.service";
-import {PackageService} from "./package.service";
-import {PackageRequest} from "./model";
+import {authMiddleware, AuthService} from "../services/auth.service";
+import {PackageService} from "../services/package.service";
+import {PackageRequest} from "../models";
 
 const HTTP_OK = 200;
 const HTTP_INTERNAL_ERROR = 500;

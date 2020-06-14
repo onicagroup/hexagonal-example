@@ -3,12 +3,11 @@ import {Seconds} from "temporal-types";
 import {MillisecondsInSecond, SecondsInMinute} from "temporal-constants";
 import * as createError from "http-errors";
 import {AuthService} from "./auth.service";
-import {PackageRepository} from "./package-repository";
+import {PackageRepository} from "../repositories/package-repository";
 import {
-  AppUser,
   Package,
   PackageRequest
-} from "./model";
+} from "../models";
 
 /**
  * Application logic.

@@ -1,22 +1,23 @@
-import {Injector} from "@sailplane/injector";
-import {AppUser, Package, PackageRequest} from "./model";
-import {AuthService} from "./auth.service";
-import {createPackageHandler} from "./package.lambda";
 import {APIGatewayProxyEvent} from "aws-lambda";
+import {Injector} from "@sailplane/injector";
 import {expect} from "chai";
 import * as assert from "assert";
+import {AuthService} from "../services/auth.service";
+import {createPackageHandler} from "./package.lambda";
+import {Package, PackageRequest} from "../models";
 
 class MockPackageService {
   mockResult?: Promise<Package>;
 
-  create(request: PackageRequest, authSvc: AuthService): Promise<Package> {
+  create(request: PackageRequest, _: AuthService): Promise<Package> {
+    assert.ok(request);
     assert.ok(this.mockResult);
     return this.mockResult!;
   }
 }
 
 describe('#createPackageHandler', () => {
-  let packageSvc = new MockPackageService();
+  const packageSvc = new MockPackageService();
   const pkgRequest: PackageRequest = {
     name: 'Unit Test',
     contentType: 'text/plain',

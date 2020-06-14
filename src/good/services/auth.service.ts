@@ -1,8 +1,8 @@
 import {APIGatewayProxyEvent} from "aws-lambda";
-import {AppUser} from "./model";
 import {Injector} from "@sailplane/injector";
 import * as createError from "http-errors";
-import * as middy from "middy";
+import middy from "@middy/core";
+import {AppUser} from "../models";
 
 /**
  * Simple start of an authorization/authentication service.
@@ -20,7 +20,7 @@ export class AuthService {
     if (event.requestContext?.authorizer?.claims) {
       const claims = event.requestContext.authorizer.claims;
       this.currentUser = {
-        id: claims['cognito:username'] || '',
+        id: claims.sub,
         name: claims.name || '',
       };
     }
