@@ -1,10 +1,9 @@
-process.env.PACKAGE_TABLE_NAME = "TABLE_NAME";
+import {PackageRepository} from "./package-repository";
 
-import {Package} from "./model";
 import * as assert from "assert";
 import {expect} from "chai";
 import {fail} from "assert";
-import {PackageRepository} from "./package-repository";
+import {Package} from "../models";
 
 const testPkg: Package = {
   name: 'Unit Test',
@@ -21,7 +20,7 @@ class MockDynamoDB {
 
   put(params: any) {
     assert.ok(this.mockResult);
-    expect(params.TableName).to.equal(process.env.PACKAGE_TABLE_NAME);
+    expect(params.TableName).to.equal('test-table');
     expect(params.Item).to.deep.equal(testPkg);
     return {
       promise: () => this.mockResult!
@@ -30,7 +29,7 @@ class MockDynamoDB {
 }
 
 describe('PackageRepository', () => {
-  let dynamoDB = new MockDynamoDB();
+  const dynamoDB = new MockDynamoDB();
 
   it('is successful', async () => {
     // GIVEN
@@ -52,7 +51,7 @@ describe('PackageRepository', () => {
 
     // WHEN
     try {
-      const result = await uut.create(testPkg);
+      await uut.create(testPkg);
       fail("expected to throw");
     }
     catch (error) {

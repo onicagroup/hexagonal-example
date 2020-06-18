@@ -1,9 +1,9 @@
 import {DynamoDB} from "aws-sdk";
 import {DocumentClient} from "aws-sdk/clients/dynamodb";
 import {Injector} from "@sailplane/injector";
-import {Package} from "./model";
+import {Package} from "../models";
 
-const tableName = process.env.PACKAGE_TABLE_NAME!;
+const tableName = process.env.PACKAGE_TABLE_NAME || 'test-table';
 
 /**
  * External interface to storage of "Package".

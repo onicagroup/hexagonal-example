@@ -3,6 +3,8 @@ import {ISODateTime, Seconds} from "temporal-types";
 /*
  * Define data types from the perspective of the business logic.
  * Nothing specific to external services here, just interfaces.
+ * (Typically you'll have more models, categorized into separate files
+ *  in this folder and exported from this index.ts.)
  */
 
 export interface AppUser {
@@ -22,6 +24,3 @@ export interface Package extends PackageRequest {
   createdOn: ISODateTime;
   ttl: Seconds;
 }
-
-export const MillisecondsInSecond = 1000;
-export const SecondsInMinute = 60;

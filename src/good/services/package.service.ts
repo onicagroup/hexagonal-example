@@ -1,28 +1,28 @@
 import {Injector} from "@sailplane/injector";
 import {Seconds} from "temporal-types";
+import {MillisecondsInSecond, SecondsInMinute} from "temporal-constants";
 import * as createError from "http-errors";
-import {PackageRepository} from "./package-repository";
+import {AuthService} from "./auth.service";
+import {PackageRepository} from "../repositories/package-repository";
 import {
-  AppUser,
-  MillisecondsInSecond,
   Package,
-  PackageRequest,
-  SecondsInMinute
-} from "./model";
+  PackageRequest
+} from "../models";
 
 /**
  * Application logic.
  * Agnostic to how it is called and where data is stored.
  */
 export class PackageService {
-  constructor(private packageRepo: PackageRepository) {
+  constructor(private packageRepo: PackageRepository, private authSvc: AuthService) {
   }
 
-  async create(request: PackageRequest, user: AppUser): Promise<Package> {
+  async create(request: PackageRequest): Promise<Package> {
     if (!request.name || !request.contentType || !request.fileName) {
       throw new createError.BadGateway('Request validation error');
     }
 
+    const user = this.authSvc.getUser();
     const epochTime = Math.floor(Date.now() / MillisecondsInSecond) as Seconds;
     const packageItem: Package = {
       ...request,
@@ -36,4 +36,4 @@ export class PackageService {
   }
 }
 
-Injector.register(PackageService, [PackageRepository]);
+Injector.register(PackageService, [PackageRepository, AuthService]);
