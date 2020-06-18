@@ -6,12 +6,10 @@
 import {APIGatewayProxyEvent} from "aws-lambda";
 import {Injector} from "@sailplane/injector";
 import * as LambdaUtils from "@sailplane/lambda-utils";
+import * as HttpStatus from "http-status-codes";
 import {authMiddleware, AuthService} from "../services/auth.service";
 import {PackageService} from "../services/package.service";
 import {PackageRequest} from "../models";
-
-const HTTP_OK = 200;
-const HTTP_INTERNAL_ERROR = 500;
 
 /**
  * AWS Lambda handler.
@@ -30,7 +28,7 @@ export const createPackageHandler = async (event: APIGatewayProxyEvent) => {
     const result = await Injector.get(PackageService)!.create(request);
 
     return {
-      statusCode: HTTP_OK,
+      statusCode: HttpStatus.OK,
       body: JSON.stringify(result)
     };
   }
@@ -43,7 +41,7 @@ export const createPackageHandler = async (event: APIGatewayProxyEvent) => {
     }
     else {
       return {
-        statusCode: HTTP_INTERNAL_ERROR,
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         body: error.toString()
       };
     }

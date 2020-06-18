@@ -21,6 +21,7 @@
     "aws-sdk": "^2.696.0",
     "bottlejs": "^1.7.2",
     "http-errors": "^1.7.3",
+    "http-status-codes": "^1.4.0",
     "temporal-constants": "^1.1.2",
     "temporal-types": "^1.0.0",
     "uuid": "^7.0.3"
