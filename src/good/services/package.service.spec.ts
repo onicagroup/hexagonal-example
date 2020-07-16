@@ -18,7 +18,7 @@ class MockPackageRepository {
 
 describe('PackageService', () => {
   const authSvc = Injector.get(AuthService)!;
-  let packageRepo = new MockPackageRepository();
+  const packageRepo = new MockPackageRepository();
   const pkgRequest: PackageRequest = {
     name: 'Unit Test',
     contentType: 'text/plain',

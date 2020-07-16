@@ -8,7 +8,7 @@ import {APIGatewayProxyEvent} from "aws-lambda";
 
 const dynamoClient = new DynamoDB.DocumentClient();
 
-/** Request body for the RESTFul API - not bad */
+/** Request body for the RESTFul API - ✅ */
 export interface PackageRequest {
   name: string;
   description?: string;
@@ -16,7 +16,7 @@ export interface PackageRequest {
   fileName?: string;
 }
 
-/** Implementation detail right in the name - BAD */
+/** Implementation detail right in the name - 🤨 */
 export interface DynamoDBPackage extends PackageRequest {
   userId: string;
   userName: string;
@@ -36,12 +36,12 @@ export const handler = async (event: APIGatewayProxyEvent) => {
     };
   }
 
-  // Bad: Dealing with DynamoDB details in handler
+  // 😲: Dealing with DynamoDB details in handler
   const tableName = process.env.TABLE_NAME;
   const epochTime = Math.floor(Date.now() / 1000);
   const entry: DynamoDBPackage = {
     ...request,
-    userId: claims['cognito:username'] || '',
+    userId: claims.sub || '',
     userName: claims.name || '',
     createdOn: new Date().toISOString(),
     ttl: epochTime + 60
@@ -67,9 +67,13 @@ export const handler = async (event: APIGatewayProxyEvent) => {
   }
 };
 
-// Good: Helper function to update DynamoDB
-// Bad: In same file with everything else & returns DynamoDB specific data type that isn't even used.
-async function addPackage(client: DocumentClient, tableName: string | undefined, packageUpload: DynamoDBPackage): Promise<PutItemOutput> {
+// 👍: Helper function to update DynamoDB
+// 👎: In same file with everything else & returns DynamoDB specific data type that isn't even used.
+async function addPackage(
+  client: DocumentClient,
+  tableName: string | undefined,
+  packageUpload: DynamoDBPackage,
+): Promise<PutItemOutput> {
   if (!tableName) {
     throw Error('tableName is not defined');
   }
