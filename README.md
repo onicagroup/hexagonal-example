@@ -100,9 +100,11 @@ architect your application to be portable anyway because the effort results in c
 Here's that [smushed](src/bad/smushed.ts) example rewritten with hexagonal architecture:
 
 - [package.service.ts](src/good/services/package.service.ts) is the application logic - the center of the architecture!
-- [package.repository.ts](src/good/repositories/package-repository.ts) handles data storage. This happens to use DynamoDB.
+- [package.repository.ts](src/good/repositories/package-repository.ts) handles data storage. This implementation uses DynamoDB.
 - [package.lambda.ts](src/good/handlers/package.lambda.ts) deals with adapting from AWS API Gateway and AWS Lambda as the entry point.
 - [auth.service.ts](src/good/services/auth.service.ts) generically deals with user authentication.
+
+![Package Hexagon](./package-hexagon.png)
 
 The new version has far more files and lines of code. If this were the only endpoint for the entire application,
 it would be overkill. The benefits of good software architecture start appearing with the second entry point,
