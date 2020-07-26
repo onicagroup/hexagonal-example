@@ -1,4 +1,4 @@
-import {PackageRepository} from "./package-repository";
+import {PackageRepository} from "./package.repository";
 
 import * as assert from "assert";
 import {expect} from "chai";

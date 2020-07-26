@@ -3,7 +3,7 @@ import {Seconds} from "temporal-types";
 import {MillisecondsInSecond, SecondsInMinute} from "temporal-constants";
 import * as createError from "http-errors";
 import {AuthService} from "./auth.service";
-import {PackageRepository} from "../repositories/package-repository";
+import {PackageRepository} from "../repositories/package.repository";
 import {
   Package,
   PackageRequest
