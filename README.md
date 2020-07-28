@@ -49,7 +49,7 @@ layering is a way of splitting concerns.
 From these layering approaches, people often have a preference of coding "top down", or "bottom up". 
 The idea here is a *linear* approach with what matters most, your application logic, somewhere in the middle of the flow.
 
-    Request Handler -> Application Logic -> External Data
+![Layering Architectures](images/layering-architectures.png)
 
 Whether you are coding top-down or bottom-up, 
 you are starting your focus on dealing with your environment specific concerns and not at the core of what your application is.
@@ -71,27 +71,39 @@ Change your mind on where to store the data? Change the adapter, *not* the appli
 
 The choice of word "hexagonal" is misleading, as it implies something special about the six sides of a hexagon.
 The hexagon shape visually highlights the difference from layer architecture - it isn't just in one end and out the other.
-Your application logic is in the center of the shape, and each side is an interface or a category of interfaces. 
+Your application logic is in the _center_ of the shape, and each side is an interface or a category of interfaces. 
 You will have as many interfaces (or sides) as you need. 
 
 ![Hexagonal Architecture](https://upload.wikimedia.org/wikipedia/commons/7/75/Hexagonal_Architecture.svg)
 
+Sometimes this is alternatively called Ports & Adapters, where “ports” is another name for an interface.
+Ports & Adapters was introduced by Alistair Cockburn on his blog in 2005 with the stated goal:
+
+    Allow an application to equally be driven by users, programs, automated test or batch scripts,
+    and to be developed and tested in isolation from its eventual run-time devices and databases.
+    
 ### Benefits of Hexagonal Architecture
 
-*Code is now DRY and robust.* 
+#### Code is now DRY and robust. 
+
 Need to interface with data? Implement and test that implementation one time,
 with all the error control and retry logic needed to make it robust.
 
-*Application logic is concise.* 
+#### Application logic is concise. 
+
 You deal with the business requirements, without environment details getting in the way. 
 Test the logic, without all the permutations of external factors because they have already been tested. 
 Because external interfaces have a limited API, their mocks are easily reused between tests.
 
-*Application logic is portable.* 
+#### Application logic is portable.
+
 Want to write your applications as AWS cloud native? 
 All the details of Lambdas, DynamoDB, and Cognito are outside of your application logic. 
 Write new adapters and you are now running in Google Cloud's Kubernetes, Firebase, etc.. 
 You never know what the future may bring.
+
+#### Cleaner, more testable code.
+
 Even if you know for certain that your application will never run in another environment, 
 architect your application to be portable anyway because the effort results in cleaner testable code. 
 
@@ -103,8 +115,9 @@ Here's that [smushed](src/bad/smushed.ts) example rewritten with hexagonal archi
 - [package.repository.ts](src/good/repositories/package-repository.ts) handles data storage. This implementation uses DynamoDB.
 - [package.lambda.ts](src/good/handlers/package.lambda.ts) deals with adapting from AWS API Gateway and AWS Lambda as the entry point.
 - [auth.service.ts](src/good/services/auth.service.ts) generically deals with user authentication.
+- [models](src/good/models/index.ts) data is defined in terms that avoid implementation specifics.
 
-![Package Hexagon](./package-hexagon.png)
+![Package Hexagon](images/package-hexagon.png)
 
 The new version has far more files and lines of code. If this were the only endpoint for the entire application,
 it would be overkill. The benefits of good software architecture start appearing with the second entry point,
@@ -161,6 +174,20 @@ then you'll need an interface in order to make your test mocks. So be it; write 
 For loosely typed languages though, a mock can be created simply by matching the "shape" of your implementation 
 and thus an explicit interface isn't needed. If a second adapter is developed, 
 that's when the on-demand need comes into play to ensure that the implementations maintain the same API.
+
+## Bigger Alternative Visualization
+
+![Alternative Visualization](images/alternative-visualization.png)
+
+This visualization is not the normal way to show hexagonal architecture and, pictorially, it won’t scale.
+However, I find it is an interesting alternative way of visualizing the relationships between components.
+
+- Besides "packages", we have now added "jobs" to our application.
+- Renamed lambdas to more generic "handler", switching to the interface name instead of adapter name.
+- Job logic needs to deal with packages to. It may do so via the package service or directly to the package repository - whichever makes sense for your design.
+- In any case, the edges of the blue hexagons, your business logic, all exchange information via the domain data models.
+- Environmental details exist within and between the red and pink hexagons.
+
 
 ## Learn More
 
