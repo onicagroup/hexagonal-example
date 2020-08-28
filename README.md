@@ -112,7 +112,7 @@ architect your application to be portable anyway because the effort results in c
 Here's that [smushed](src/bad/smushed.ts) example rewritten with hexagonal architecture:
 
 - [package.service.ts](src/good/services/package.service.ts) is the application logic - the center of the architecture!
-- [package.repository.ts](src/good/repositories/package-repository.ts) handles data storage. This implementation uses DynamoDB.
+- [package.repository.ts](src/good/repositories/package.repository.ts) handles data storage. This implementation uses DynamoDB.
 - [package.lambda.ts](src/good/handlers/package.lambda.ts) deals with adapting from AWS API Gateway and AWS Lambda as the entry point.
 - [auth.service.ts](src/good/services/auth.service.ts) generically deals with user authentication.
 - [models](src/good/models/index.ts) data is defined in terms that avoid implementation specifics.
@@ -129,7 +129,7 @@ This new version also employs a few of other good programming practices...
 
 Each module in the new example has unit tests with full coverage:
 [package.service.spec.ts](src/good/services/package.service.spec.ts), 
-[package.repository.spec.ts](src/good/repositories/package-repository.spec.ts), 
+[package.repository.spec.ts](src/good/repositories/package.repository.spec.ts), 
 [package.lambda.spec.ts](src/good/handlers/package.lambda.spec.ts),
 [auth.service.spec.ts](src/good/services/auth.service.spec.ts)
 
