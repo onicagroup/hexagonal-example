@@ -1,9 +1,11 @@
-# Hexagonal Architecture by Example
+# Hexagonal Architecture by Example (in TypeScript)
+
+by Adam Fanello, Lead Software Architect - Onica by Rackspace Technology © 2020-2022
 
 ## Overview
 
-Hexagonal architecture is a pattern of software architecture involving abstracting away all input and output
-functionality to keep just your business logic at the core.
+Hexagonal architecture is a pattern of software architecture involving abstracting away all input
+and output functionality to keep just your business logic at the core.
 It's an extension of the adapter and dependency injection patterns, and used to abstract away
 environment specific dependencies to leave your business logic free of such distractions.
 
@@ -112,7 +114,7 @@ architect your application to be portable anyway because the effort results in c
 Here's that [smushed](src/bad/smushed.ts) example rewritten with hexagonal architecture:
 
 - [package.service.ts](src/good/services/package.service.ts) is the application logic - the center of the architecture!
-- [package.repository.ts](src/good/repositories/package-repository.ts) handles data storage. This implementation uses DynamoDB.
+- [package.repository.ts](src/good/repositories/package.repository.ts) handles data storage. This implementation uses DynamoDB.
 - [package.lambda.ts](src/good/handlers/package.lambda.ts) deals with adapting from AWS API Gateway and AWS Lambda as the entry point.
 - [auth.service.ts](src/good/services/auth.service.ts) generically deals with user authentication.
 - [models](src/good/models/index.ts) data is defined in terms that avoid implementation specifics.
@@ -129,7 +131,7 @@ This new version also employs a few of other good programming practices...
 
 Each module in the new example has unit tests with full coverage:
 [package.service.spec.ts](src/good/services/package.service.spec.ts), 
-[package.repository.spec.ts](src/good/repositories/package-repository.spec.ts), 
+[package.repository.spec.ts](src/good/repositories/package.repository.spec.ts), 
 [package.lambda.spec.ts](src/good/handlers/package.lambda.spec.ts),
 [auth.service.spec.ts](src/good/services/auth.service.spec.ts)
 
@@ -158,7 +160,7 @@ In the improved example, we use explicit constants, functions, and types to repl
 ### Directory Structure
 
 There are many good choices for organizing your source; all in one directory is not one of them!
-The new version [shows a common way of organizing source](src/good/) by where it is in the architecture.
+The new version [shows a common way of organizing source](src/good) by where it is in the architecture.
 
 ## To Interface, or Not To Interface?
 
@@ -184,14 +186,20 @@ However, I find it is an interesting alternative way of visualizing the relation
 
 - Besides "packages", we have now added "jobs" to our application.
 - Renamed lambdas to more generic "handler", switching to the interface name instead of adapter name.
-- Job logic needs to deal with packages to. It may do so via the package service or directly to the package repository - whichever makes sense for your design.
+- Job logic needs to deal with packages too. It may do so via the package service or directly to the package repository - whichever makes sense for your design.
 - In any case, the edges of the blue hexagons, your business logic, all exchange information via the domain data models.
 - Environmental details exist within and between the red and pink hexagons.
 
 
 ## Learn More
 
-There is much written about Hexagonal Architecture, from other perspectives. Here are a couple of good reads:
+There is much written about Hexagonal Architecture, from other perspectives. Here are a few good reads:
 
-- [Hexagonal Architecture: What Is It and How Does It Work?](https://blog.ndepend.com/hexagonal-architecture/)  with examples in C#
-- [Ready for changes with Hexagonal Architecture](https://netflixtechblog.com/ready-for-changes-with-hexagonal-architecture-b315ec967749) - Netflix's journey from monolith
+- [Hexagonal Architecture: What Is It and How Does It Work?](https://blog.ndepend.com/hexagonal-architecture/) -
+  with examples in C#
+- [Ready for changes with Hexagonal Architecture](https://netflixtechblog.com/ready-for-changes-with-hexagonal-architecture-b315ec967749) -
+  Netflix's journey from monolith
+- [ARC302 Evolutionary AWS Lambda functions with hexagonal architecture](https://www.youtube.com/watch?v=uR4-zuMXElM) -
+  from AWS re:Invent 2021
+- [Developing evolutionary architecture with AWS Lambda](https://aws.amazon.com/blogs/compute/developing-evolutionary-architecture-with-aws-lambda/) -
+  Another example in Lambda with JavaScript

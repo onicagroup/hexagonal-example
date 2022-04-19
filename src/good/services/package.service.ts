@@ -19,7 +19,7 @@ export class PackageService {
 
   async create(request: PackageRequest): Promise<Package> {
     if (!request.name || !request.contentType || !request.fileName) {
-      throw new createError.BadGateway('Request validation error');
+      throw new createError.BadRequest('Request validation error');
     }
 
     const user = this.authSvc.getUser();
