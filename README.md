@@ -141,7 +141,7 @@ The primary tool for decoupling with interfaces and adapters is a pattern called
 In the example, we use the [Sailplane project's Injector](https://docs.onica.com/projects/sailplane/en/latest/injector.html). 
 
 New to dependency injection? There is a *lot* of material written about this common pattern already.
-Two starting points:
+Three starting points:
 
 - [A quick intro to DI](https://www.freecodecamp.org/news/a-quick-intro-to-dependency-injection-what-it-is-and-when-to-use-it-7578c84fa88f/) at freeCodeCamp
 - [Definition and many examples](https://en.wikipedia.org/wiki/Dependency_injection) on Wikipedia
