@@ -30,5 +30,5 @@ export class PackageRepository {
 
 // Inject a raw DynamoDB client. Can easily replace with a mock for unit testing
 // or a wrapper that enhances the default behavior.
-Injector.registerConstant('DynamoDB', () => new DynamoDB.DocumentClient());
+Injector.registerConstant('DynamoDB', new DynamoDB.DocumentClient());
 Injector.register(PackageRepository, ['DynamoDB']);
