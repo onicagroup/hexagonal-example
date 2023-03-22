@@ -20,7 +20,7 @@ When we write software, there are multiple areas of concern to deal with:
 
 The quick hack approach is to glob all of this together.
 
-We'll demonstrate this, and later an improved version, with a example AWS Lambda function.
+We'll demonstrate this, and later an improved version, with an example AWS Lambda function.
 This function is an API endpoint to create a new "package". This "package" is enhanced with
 some metadata and stored in DynamoDB. Sounds simple?
 Here's the hacker's implementation: [smushed.ts](src/bad/smushed.ts)
